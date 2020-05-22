@@ -1,0 +1,56 @@
+# Restart simulation. This command will append results of new simulations to the same output files, e.g. COLVAR.
+RESTART
+
+LOAD FILE=PairOrientationalEntropy.cpp
+
+# Define groups for the CV
+INCLUDE FILE=centers.dat
+C: GROUP ATOMS=1-864:8
+O: GROUP ATOMS=2-864:8
+N1: GROUP ATOMS=3-864:8
+N2: GROUP ATOMS=6-864:8
+ 
+# Define the CV
+
+PAIR_ORIENTATIONAL_ENTROPY ...
+ LABEL=s1
+ CENTER=C
+ START=Ncenter
+ END=O
+ MAXR=0.6
+ SIGMA=0.05,0.25
+... PAIR_ORIENTATIONAL_ENTROPY
+
+PAIR_ORIENTATIONAL_ENTROPY ...
+ LABEL=s2
+ CENTER=C
+ START=N1
+ END=N2
+ MAXR=0.6
+ SIGMA=0.05,0.125
+ UP_DOWN_SYMMETRY
+... PAIR_ORIENTATIONAL_ENTROPY
+
+# Construct a bias potential using metadynamics
+
+METAD ...
+ LABEL=metad
+ ARG=s1,s2   # Label of the CV
+ PACE=500   # Pace in the deposition of the gaussians
+ HEIGHT=18.705   # Height of the gaussians in energy units kJ/mol. This is 5 kT.
+ SIGMA=0.1,0.1   # Width of the gaussian in CV units
+ FILE=HILLS   # File where the information of the gaussians is printed
+ BIASFACTOR=200.0   # Bias factor in well tempered simulations
+ TEMP=450.0   # Temperature in Kelvin. Only needed for well tempered simulations
+ GRID_MIN=-14.0,-14.0   # The following three lines define a grid for the calculation of the bias potential. Use it **always**.
+ GRID_MAX=0.,0.
+ GRID_BIN=600,600
+ CALC_RCT
+... METAD
+
+# Print value of the CV and bias to a file named COLVAR
+PRINT STRIDE=500  ARG=* FILE=COLVAR   
+
+
+
+
