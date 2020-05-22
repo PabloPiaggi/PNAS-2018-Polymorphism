@@ -6,10 +6,10 @@
 
 This repository contains the input files to reproduce the results of the paper mentioned above. 
 
-The folders Urea and Naphthalene contain an example input for each of this systems.
+The folders Urea and Naphthalene contain an example input for each of these systems.
 The source code for the collective variable PairOrientationalEntropy.cpp is compiled on the fly using the LOAD keyword in the plumed.dat file.
 
-I have also included the original source code inside the  ```src``` directory
+I have also included the original source code inside the  ```src``` directory.
 If compiling on the fly doesn't work, you need to copy these files into your PLUMED 2 folder and recompile.
 Then remove the LOAD line from the plumed.dat files and run the simulations.
 
