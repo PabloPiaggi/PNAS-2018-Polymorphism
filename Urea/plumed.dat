@@ -1,5 +1,5 @@
 # Restart simulation. This command will append results of new simulations to the same output files, e.g. COLVAR.
-RESTART
+# RESTART
 
 LOAD FILE=PairOrientationalEntropy.cpp
 
